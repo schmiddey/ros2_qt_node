@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "colcon_build",
+      "type": "shell",
+      "command": "colcon build --packages-up-to ${input:pkgs} --symlink-install  --cmake-args \"-DCMAKE_EXPORT_COMPILE_COMMANDS=1\" ",
+      "options": {
+        "cwd": "${workspaceFolder}/../../"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "gcc"
+    },
+  ],
+  "inputs": [
+    {
+      "id": "pkgs",
+      "type": "pickString",
+      "description": "pkgs from this meta pkg",
+      "options": [
+        "ros2_qt_node",
+      ]
+    }
+  ]
+}
