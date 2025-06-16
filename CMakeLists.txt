@@ -28,6 +28,7 @@ find_package(cv_bridge REQUIRED)
 
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 # find_package(Qt5Widgets)
+find_package(OpenCV REQUIRED)
 
 include_directories(include)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -41,6 +42,22 @@ if(BUILD_TESTING)
   # uncomment the line when this package is not in a git repo
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+
+  # Add test dependencies
+  find_package(ament_cmake_gtest REQUIRED)
+
+  # Basic ROS2 functionality test
+  ament_add_gtest(test_basic_ros2 test/test_basic_ros2.cpp)
+  ament_target_dependencies(test_basic_ros2 rclcpp std_msgs)
+
+  # Basic Qt functionality test
+  ament_add_gtest(test_basic_qt test/test_basic_qt.cpp)
+  target_link_libraries(test_basic_qt Qt5::Core)
+
+  # Application functionality test
+  ament_add_gtest(test_functionality test/test_functionality.cpp)
+  ament_target_dependencies(test_functionality rclcpp std_msgs cv_bridge)
+  target_link_libraries(test_functionality ${OpenCV_LIBRARIES})
 endif()
 
 
